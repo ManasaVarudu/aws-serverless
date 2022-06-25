@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>K L UNIVERSITY</title>
+      <link rel="stylesheet" type="text/css"  href="./style.css">
+    <meta charset="utf-8" />
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="knockout-3.4.2.js"></script>
+    <script type="text/javascript">
+        
+
+		jQuery.support.cors = true;
+		
+        $(document).ready(function() {
+
+            var customerDetailsViewModel = function() {
+            var self = this;
+			
+			self.EmailID = ko.observable("");
+            self.FirstName = ko.observable("");
+            self.LastName = ko.observable("");
+            self.SuccessMessage = ko.observable("");
+			
+			
+			
+			
+			
+
+            self.SaveCustomerDetails = function () {              
+                
+				var CustomerDetail = {
+				
+				EmailID: self.EmailID(),
+				FirstName: self.FirstName(),
+				LastName: self.LastName(),
+				EmpID:self.EmpID(),
+				salary:self.salary(),
+				dob:sef.dob()
+				
+				}
+				
+				
+				
+				
+				
+				$.ajax({
+					crossDomain: true,
+				
+                    url: 'https://994rovm07b.execute-api.us-east-2.amazonaws.com/Dev/postcustomerdetails',
+					
+					
+                    cache: false,
+                    type: 'POST', 
+                    data: ko.toJSON(CustomerDetail),
+                    success: function (data) {              
+                        self.SuccessMessage(data)
+							self.EmailID('');
+							self.FirstName('');
+							self.LastName('');
+							
+						
+                    }
+					}).fail(
+					
+					
+					function(xhr, textStatus, err){
+					alert("Error happened "+err);
+					
+                });
+            };
+        }
+
+            var viewModel = new customerDetailsViewModel();
+            ko.applyBindings(viewModel);
+         });
+
+       
+    </script>
+</head>
+<body>
+	<header>
+		<div class="main">
+			<div class="logo">
+				<img src="klulogo3.png">
+			</div>
+			<ul>
+				<li><a href="index.html">HOME</a></li>
+				<li><a href="details.html">FETCH</a></li>
+				<!-- <li><a href="aboutus.html">ABOUT US</a></li>
+				<li><a href="contact.html">CONTACT US</a></li>
+				<li><a href="login.html">LOGIN</a></li> -->
+			</ul>
+		</div>
+
+		<div class="title">
+		   <h1>Enter Details</h1>
+		<br><br>
+    <table>
+        <tr>
+            <td>
+				<div>
+				
+				<h2>
+						Employee ID:
+						<input style="height: 25px;width: 250px" data-bind='value: EmpID' />
+						</h2>
+						<br>
+				<h2>
+					Email ID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input style="height: 25px;width: 250px"data-bind='value: EmailID' />
+					
+					</h2>
+					<br>
+					
+					
+						<h2>
+						First Name:&nbsp;&nbsp;&nbsp;
+						<input style="height: 25px;width: 250px" data-bind='value: FirstName' />
+						</h2>
+						<br>
+						<h2>
+						Last Name:&nbsp;&nbsp;&nbsp;&nbsp;
+						<input style="height: 25px;width: 250px" data-bind='value: LastName' />
+						</h2>
+						<br>
+						<h2>
+						Date of Birth:&nbsp;
+						<input style="height: 25px;width: 250px" data-bind='value: dob' />
+						</h2>
+						<br>
+						<h2>
+						Salary:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input style="height: 25px;width: 250px" data-bind='value: salary' />
+						</h2>
+						<br>
+						
+						</div>
+						
+					<h2><span style ="color: darkolivegreen" data-bind='text : SuccessMessage' /></h2>
+					
+				</td>
+				</tr>
+				<tr>
+					<td>
+						<div>
+								<button class="btn" data-bind="click: $root.SaveCustomerDetails" > Save </button>
+							</div>
+						</td>
+					</tr>
+					
+				</table>
+				</div>
+			</header>
+				
+				</body>
+				</html>
